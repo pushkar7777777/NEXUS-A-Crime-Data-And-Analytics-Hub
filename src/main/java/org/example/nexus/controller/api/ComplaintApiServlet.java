@@ -94,11 +94,11 @@ public class ComplaintApiServlet extends HttpServlet {
             c.setUrgencyLevel(parseString(body, "urgencyLevel"));
         } else {
             // form parameters
-            c.setRegId(parseInt(req.getParameter("regId"), 0));
+            c.setRegId(parseIntFromString(req.getParameter("regId"), 0));
             c.setComplaintType(req.getParameter("complaintType"));
             c.setLocationOfIncident(req.getParameter("locationOfIncident"));
-            c.setLatitude(parseDouble(req.getParameter("latitude"), 0));
-            c.setLongitude(parseDouble(req.getParameter("longitude"), 0));
+            c.setLatitude(parseDoubleFromString(req.getParameter("latitude"), 0));
+            c.setLongitude(parseDoubleFromString(req.getParameter("longitude"), 0));
             c.setDescription(req.getParameter("description"));
             c.setUrgencyLevel(req.getParameter("urgencyLevel"));
         }
@@ -131,8 +131,18 @@ public class ComplaintApiServlet extends HttpServlet {
         try { return Integer.parseInt(s); } catch (Exception e) { return fallback; }
     }
 
+    private int parseIntFromString(String s, int fallback) {
+        if (s == null || s.isBlank()) return fallback;
+        try { return Integer.parseInt(s); } catch (Exception e) { return fallback; }
+    }
+
     private double parseDouble(String body, String key, double fallback) {
         String s = parseString(body, key);
+        if (s == null || s.isBlank()) return fallback;
+        try { return Double.parseDouble(s); } catch (Exception e) { return fallback; }
+    }
+
+    private double parseDoubleFromString(String s, double fallback) {
         if (s == null || s.isBlank()) return fallback;
         try { return Double.parseDouble(s); } catch (Exception e) { return fallback; }
     }
