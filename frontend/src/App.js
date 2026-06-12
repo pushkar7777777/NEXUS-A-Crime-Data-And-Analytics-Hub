@@ -1,24 +1,24 @@
-import logo from './logo.svg';
+import React from 'react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import LoginPage from './pages/LoginPage';
+import ComplaintsListPage from './pages/ComplaintsListPage';
 import './App.css';
+
+function AppContent() {
+  const { token, loading } = useAuth();
+
+  if (loading) {
+    return <div className="app-loading">Loading...</div>;
+  }
+
+  return token ? <ComplaintsListPage /> : <LoginPage />;
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
